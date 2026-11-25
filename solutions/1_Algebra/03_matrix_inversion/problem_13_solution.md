@@ -34,4 +34,18 @@ $$H^{-1}S^{-1} = \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} \
 Because $-\frac{1}{2} \neq -1$ in the top-right entry, we see that $H^{-1}S^{-1} \neq T^{-1}$.
 
 ### 3. Explaining the Rule: "When Undoing a Composition of Operations, We Undo Them from the End"
-When the composite matrix $T = HS$ acts on a vector $x$ as $Tx = H(Sx)$, the operation $S$ (stretching the $x$-coordinate by $2$) is performed **first**, and the operation $H$ (adding $y$ to the $x$-coordinate) is performed **second (at the end)**. To return to the original vector $x$, we cannot undo $S$ first because $H$ has already mixed $y$ into the scaled $x$-coordinate. Instead, we must reverse the steps in reverse chronological order: first undo the
+When the composite transformation $T = HS$ acts on a vector $x$, matrix multiplication works from right to left: $Tx = H(Sx)$. This means the operation $S$ (stretching the $x$-coordinate by $2$) is applied **first**, and the operation $H$ (adding the $y$-coordinate to the already stretched $x$-coordinate) is applied **second (at the end)**.
+
+To return to the original vector $x$, we must reverse these steps in reverse chronological order—starting from the last operation performed:
+1. First, we apply $H^{-1}$ to undo the final shear operation $H$ and recover $Sx$.
+2. Second, we apply $S^{-1}$ to undo the initial scaling operation $S$ and recover $x$.
+
+Writing this two-step reversal from right to left gives the matrix product $S^{-1}H^{-1}$, because $H^{-1}$ stands on the right (acting first on $Tx$) and $S^{-1}$ stands on the left (acting second):
+$$(S^{-1}H^{-1})(HSx) = S^{-1}(H^{-1}H)Sx = S^{-1}I_2Sx = S^{-1}Sx = x$$
+If we instead applied $H^{-1}S^{-1}$, we would mistakenly divide the sheared $x$-coordinate by $2$ before subtracting $y$, failing to restore the original vector.
+
+### Verification
+We verify that $T^{-1}$ undoes $T$ on the test vector $v = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$:
+* Applying $T = HS$: $Sv = \begin{pmatrix} 2 \\ 2 \end{pmatrix}$, then $Tv = H(Sv) = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 4 \\ 2 \end{pmatrix}$.
+* Applying $T^{-1}$: $T^{-1}(Tv) = \begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 4 \\ 2 \end{pmatrix} = \begin{pmatrix} 2 - 1 \\ 2 \end{pmatrix} = \begin{pmatrix} 1 \\ 2 \end{pmatrix} = v$.
+* By contrast, applying $H^{-1}S^{-1}$ gives $\begin{pmatrix} \frac{1}{2} & -1 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 4 \\ 2 \end{pmatrix} = \begin{pmatrix} 2 - 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 0 \\ 2 \end{pmatrix} \neq v$, confirming why the reversed order is required.

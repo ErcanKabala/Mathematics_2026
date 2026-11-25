@@ -1,51 +1,283 @@
-# Exercise 13. Undoing a Composite Transformation
+# Inverse Matrix
 
-## Question
-The matrices:
-$$S = \begin{pmatrix} 2 & 0 \\ 0 & 1 \end{pmatrix}, \quad H = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$$
-describe nonuniform scaling and horizontal shear, respectively. For the composite transformation $T = HS$, we need to:
-1. Find $T^{-1}$ in two ways:
-   * Method 1: First compute $T$, then find its inverse.
-   * Method 2: Use the product inverse formula $(HS)^{-1} = S^{-1}H^{-1}$.
-2. Compare the two results.
-3. Compute $H^{-1}S^{-1}$ and verify that the incorrect order yields a different matrix.
-4. Explain the rule: *"when undoing a composition of operations, we undo them from the end."*
+## Goal of the Set
 
-## Solution
+After completing this set, the student should understand what an inverse matrix is, when it exists, be able to find it using basic methods, check the result, and use the inverse to solve simple problems.
 
-### 1. Finding $T^{-1}$ in Two Ways
+## Basic Exercises
 
-* **Method 1 (Computing $T = HS$ first, then inverting $T$):**
-First, we multiply $H$ and $S$:
-$$T = HS = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 2 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 1(2) + 1(0) & 1(0) + 1(1) \\ 0(2) + 1(0) & 0(0) + 1(1) \end{pmatrix} = \begin{pmatrix} 2 & 1 \\ 0 & 1 \end{pmatrix}$$
-Since $\det T = (2)(1) - (1)(0) = 2$, applying the $2 \times 2$ inverse formula gives:
-$$T^{-1} = \frac{1}{2} \begin{pmatrix} 1 & -1 \\ 0 & 2 \end{pmatrix} = \begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}$$
+### Exercise 1. Definition of the Inverse
+For
 
-* **Method 2 (Using $(HS)^{-1} = S^{-1}H^{-1}$):**
-First, we find $S^{-1}$ (with $\det S = 2$) and $H^{-1}$ (with $\det H = 1$) separately:
-$$S^{-1} = \frac{1}{2} \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix} = \begin{pmatrix} \frac{1}{2} & 0 \\ 0 & 1 \end{pmatrix}, \qquad H^{-1} = \frac{1}{1} \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix}$$
-Now we multiply $S^{-1}$ by $H^{-1}$:
-$$S^{-1}H^{-1} = \begin{pmatrix} \frac{1}{2} & 0 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} \frac{1}{2}(1) + 0(0) & \frac{1}{2}(-1) + 0(1) \\ 0(1) + 1(0) & 0(-1) + 1(1) \end{pmatrix} = \begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}$$
+$$
+A=
+\begin{pmatrix}
+2 & 1 \\
+1 & 1 \\
+\end{pmatrix},\qquad B=
+\begin{pmatrix}
+1 & -1 \\
+-1 & 2 \\
+\end{pmatrix}
+$$
 
-### 2. Comparing the Results and Checking $H^{-1}S^{-1}$
-* **Comparison:** Both Method 1 and Method 2 produce the exact same matrix $\begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}$, confirming $(HS)^{-1} = S^{-1}H^{-1}$.
-* **Computing $H^{-1}S^{-1}$ (Incorrect Order):**
-$$H^{-1}S^{-1} = \begin{pmatrix} 1 & -1 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} \frac{1}{2} & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 1\left(\frac{1}{2}\right) + (-1)(0) & 1(0) + (-1)(1) \\ 0\left(\frac{1}{2}\right) + 1(0) & 0(0) + 1(1) \end{pmatrix} = \begin{pmatrix} \frac{1}{2} & -1 \\ 0 & 1 \end{pmatrix}$$
-Because $-\frac{1}{2} \neq -1$ in the top-right entry, we see that $H^{-1}S^{-1} \neq T^{-1}$.
+check, without using a formula, whether $B=A^{-1}$. Compute $AB$ and $BA$ and relate the result to the definition of the inverse.
 
-### 3. Explaining the Rule: "When Undoing a Composition of Operations, We Undo Them from the End"
-When the composite transformation $T = HS$ acts on a vector $x$, matrix multiplication works from right to left: $Tx = H(Sx)$. This means the operation $S$ (stretching the $x$-coordinate by $2$) is applied **first**, and the operation $H$ (adding the $y$-coordinate to the already stretched $x$-coordinate) is applied **second (at the end)**.
+> **Why this exercise:** starts from the definition of the inverse through multiplication before any formulas or computational methods are introduced.
 
-To return to the original vector $x$, we must reverse these steps in reverse chronological order—starting from the last operation performed:
-1. First, we apply $H^{-1}$ to undo the final shear operation $H$ and recover $Sx$.
-2. Second, we apply $S^{-1}$ to undo the initial scaling operation $S$ and recover $x$.
+### Exercise 2. Formula for a 2×2 Matrix
+Find the inverse of
 
-Writing this two-step reversal from right to left gives the matrix product $S^{-1}H^{-1}$, because $H^{-1}$ stands on the right (acting first on $Tx$) and $S^{-1}$ stands on the left (acting second):
-$$(S^{-1}H^{-1})(HSx) = S^{-1}(H^{-1}H)Sx = S^{-1}I_2Sx = S^{-1}Sx = x$$
-If we instead applied $H^{-1}S^{-1}$, we would mistakenly divide the sheared $x$-coordinate by $2$ before subtracting $y$, failing to restore the original vector.
+$$
+A=
+\begin{pmatrix}
+3 & 2 \\
+5 & 4 \\
+\end{pmatrix}
+$$
 
-### Verification
-We verify that $T^{-1}$ undoes $T$ on the test vector $v = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$:
-* Applying $T = HS$: $Sv = \begin{pmatrix} 2 \\ 2 \end{pmatrix}$, then $Tv = H(Sv) = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 4 \\ 2 \end{pmatrix}$.
-* Applying $T^{-1}$: $T^{-1}(Tv) = \begin{pmatrix} \frac{1}{2} & -\frac{1}{2} \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 4 \\ 2 \end{pmatrix} = \begin{pmatrix} 2 - 1 \\ 2 \end{pmatrix} = \begin{pmatrix} 1 \\ 2 \end{pmatrix} = v$.
-* By contrast, applying $H^{-1}S^{-1}$ gives $\begin{pmatrix} \frac{1}{2} & -1 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 4 \\ 2 \end{pmatrix} = \begin{pmatrix} 2 - 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 0 \\ 2 \end{pmatrix} \neq v$, confirming why the reversed order is required.
+using the formula for a $2\times2$ matrix. At the end, check the result by computing one product with $A$.
+
+> **Why this exercise:** teaches the simplest explicit formula for an inverse and requires verification using the definition.
+
+### Exercise 3. When Does the Inverse Not Exist?
+For
+
+$$
+A=
+\begin{pmatrix}
+2 & 4 \\
+1 & 2 \\
+\end{pmatrix}
+$$
+
+explain in two ways why $A^{-1}$ does not exist: using the determinant and using dependence between the rows.
+
+> **Why this exercise:** connects two signs of noninvertibility instead of treating them as unrelated facts.
+
+### Exercise 4. Gauss–Jordan
+Find $A^{-1}$ using the Gauss–Jordan method for
+
+$$
+A=
+\begin{pmatrix}
+1 & 2 \\
+3 & 5 \\
+\end{pmatrix}.
+$$
+
+Show the augmented matrix $[A\mid I]$ after successive operations and explain why obtaining $I$ on the left gives the inverse on the right.
+
+> **Why this exercise:** introduces the Gauss–Jordan method together with its meaning, not merely as a sequence of operations.
+
+### Exercise 5. A 3×3 Matrix
+Use Gauss–Jordan elimination to find the inverse of
+
+$$
+A=
+\begin{pmatrix}
+1 & 1 & 0 \\
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+\end{pmatrix}.
+$$
+
+Check the result by multiplication.
+
+> **Why this exercise:** provides necessary practice with the full method in a situation where the $2\times2$ formula no longer applies.
+
+### Exercise 6. Solving a System Using the Inverse
+Solve
+
+$$
+Ax=b,
+$$
+
+where
+
+$$
+A=
+\begin{pmatrix}
+2 & 1 \\
+1 & 3 \\
+\end{pmatrix},\qquad b=
+\begin{pmatrix}
+5 \\
+7 \\
+\end{pmatrix},
+$$
+
+using $x=A^{-1}b$. Then substitute the resulting vector back into the equation and check the result.
+
+> **Why this exercise:** shows the connection between inverse matrices and solving a linear system.
+
+### Exercise 7. Inverse of a Product
+For
+
+$$
+A=
+\begin{pmatrix}
+1 & 1 \\
+0 & 1 \\
+\end{pmatrix},\qquad B=
+\begin{pmatrix}
+2 & 0 \\
+0 & 3 \\
+\end{pmatrix}
+$$
+
+compute $(AB)^{-1}$ and $B^{-1}A^{-1}$. Check that the results are the same and explain the meaning of the reversed order.
+
+> **Why this exercise:** reinforces the inverse-of-a-product property and requires its interpretation.
+
+### Exercise 8. Inverse of a Transformation
+The matrix
+
+$$
+S=
+\begin{pmatrix}
+2 & 0 \\
+0 & \frac12 \\
+\end{pmatrix}
+$$
+
+describes a scaling of the plane. Find $S^{-1}$ and explain geometrically what the inverse transformation does. Check the action of the pair $S,S^{-1}$ on one simple vector.
+
+> **Why this exercise:** gives the inverse the interpretation of undoing a transformation.
+
+### Exercise 9. Matrix Equation
+Given
+
+$$
+A=
+\begin{pmatrix}
+1 & 2 \\
+0 & 1 \\
+\end{pmatrix},\qquad B=
+\begin{pmatrix}
+3 & 1 \\
+2 & 4 \\
+\end{pmatrix}.
+$$
+
+Solve the equation $AX=B$ for $X$. Before calculating, decide on which side of the equation $A^{-1}$ must be used. Then check the result by computing $AX$.
+
+> **Why this exercise:** teaches that order matters in matrix equations and must guide the solution.
+
+### Exercise 10. Inverse of a Diagonal Matrix
+Given
+
+$$
+D=
+\begin{pmatrix}
+2 & 0 & 0 \\
+0 & -3 & 0 \\
+0 & 0 & 5 \\
+\end{pmatrix},\qquad E=
+\begin{pmatrix}
+2 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 5 \\
+\end{pmatrix}.
+$$
+
+Without using Gauss–Jordan elimination, decide which matrix is invertible. For the invertible matrix, give the inverse and check the result by multiplication.
+
+> **Why this exercise:** teaches how to recognize invertibility and the inverse without using a full procedure when the matrix structure gives the answer immediately.
+
+## More Challenging Exercises
+
+### Exercise 11. Parameter and Invertibility
+For
+
+$$
+A(t)=
+\begin{pmatrix}
+1 & t \\
+t & 1 \\
+\end{pmatrix}
+$$
+
+find all $t$ for which the matrix is invertible, and then give a formula for $A(t)^{-1}$. Explain what happens to this formula at the excluded values.
+
+> **Why this exercise:** combines a parameter, determinant, and an explicit inverse formula in one problem.
+
+### Exercise 12. Finding Inverses Without Starting from Scratch
+It is known that
+
+$$
+A^{-1}=
+\begin{pmatrix}
+2 & -1 \\
+-3 & 2 \\
+\end{pmatrix}.
+$$
+
+Without finding $A$, compute $(3A)^{-1}$, $(A^T)^{-1}$, and $(A^2)^{-1}$. Justify each result using the appropriate property.
+
+> **Why this exercise:** teaches how to use inverse properties instead of carrying out unnecessary full calculations.
+
+### Exercise 13. Undoing a Composite Transformation
+The matrices
+
+$$
+S=
+\begin{pmatrix}
+2 & 0 \\
+0 & 1 \\
+\end{pmatrix},\qquad H=
+\begin{pmatrix}
+1 & 1 \\
+0 & 1 \\
+\end{pmatrix}
+$$
+
+describe nonuniform scaling and shear. For $T=HS$, find $T^{-1}$ in two ways:
+
+1. first compute $T$, then its inverse,
+2. use $(HS)^{-1}=S^{-1}H^{-1}$.
+
+Compare the results. Additionally compute $H^{-1}S^{-1}$ and verify that the incorrect order gives a different matrix. Explain the rule: “when undoing a composition of operations, we undo them from the end.”
+
+> **Why this exercise:** reinforces the inverse of a product in a less direct configuration.
+
+### Exercise 14. A Matrix That Is Its Own Inverse
+Assume that a square matrix $A$ satisfies
+
+$$
+A^2=I.
+$$
+
+Show that
+
+$$
+A^{-1}=A.
+$$
+
+Then give an example of a $2\times2$ matrix different from $I$ and $-I$ that satisfies this condition, and verify it by multiplication.
+
+> **Why this exercise:** requires using the definition of the inverse in a short argument and constructing an example independently, without introducing a new topic.
+
+### Exercise 15. Two Methods for Solving the Same System
+For
+
+$$
+A=
+\begin{pmatrix}
+2 & 1 \\
+1 & 3 \\
+\end{pmatrix},\qquad b=
+\begin{pmatrix}
+7 \\
+8 \\
+\end{pmatrix}
+$$
+
+solve $Ax=b$ in two ways:
+
+1. using $A^{-1}b$,
+2. using Gaussian elimination.
+
+Compare both solutions, the number of essential steps, and state which method was simpler in this example.
+
+> **Why this exercise:** compares two known methods and prepares the student to choose a solution method consciously.
