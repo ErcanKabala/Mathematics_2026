@@ -58,6 +58,7 @@ explain in two ways why $A^{-1}$ does not exist: using the determinant and using
 ### Exercise 4. Gauss–Jordan
 Find $A^{-1}$ using the Gauss–Jordan method for
 
+
 $$
 A=
 \begin{pmatrix}

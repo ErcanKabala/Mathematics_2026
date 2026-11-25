@@ -36,6 +36,7 @@ Because $-\frac{1}{2} \neq -1$ in the top-right entry, we see that $H^{-1}S^{-1}
 ### 3. Explaining the Rule: "When Undoing a Composition of Operations, We Undo Them from the End"
 When the composite transformation $T = HS$ acts on a vector $x$, matrix multiplication works from right to left: $Tx = H(Sx)$. This means the operation $S$ (stretching the $x$-coordinate by $2$) is applied **first**, and the operation $H$ (adding the $y$-coordinate to the already stretched $x$-coordinate) is applied **second (at the end)**.
 
+
 To return to the original vector $x$, we must reverse these steps in reverse chronological order—starting from the last operation performed:
 1. First, we apply $H^{-1}$ to undo the final shear operation $H$ and recover $Sx$.
 2. Second, we apply $S^{-1}$ to undo the initial scaling operation $S$ and recover $x$.
